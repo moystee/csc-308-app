@@ -68,6 +68,10 @@ app.get("/", (req, res) => {
   res.send("Hello World! Nodemon works.");
 });
 
+function generateId() {
+  return Math.floor(Math.random() * 1000000).toString();
+}
+
 const addUser = (user) => {
   users["users_list"].push(user);
   return users;
@@ -101,6 +105,9 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
+
+  userToAdd.id = generateId();
+
   addUser(userToAdd);
   res.status(201).send();
 });
