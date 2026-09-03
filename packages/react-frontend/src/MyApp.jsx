@@ -31,11 +31,23 @@ function MyApp() {
   }
 
   function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-    return i !== index;
-    });
+    const characterToRemove = characters[index];
 
-    setCharacters(updated);
+    fetch(`http://localhost:8000/users/${characterToRemove.id}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (res.status === 204) {
+          const updated = characters.filter((character, i) => {
+            return i !== index;
+          });
+
+          setCharacters(updated);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   function updateList(person) {
