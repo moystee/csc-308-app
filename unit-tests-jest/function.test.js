@@ -1,4 +1,4 @@
-const myFunctions = require("./function.js"); // export the function.js file
+const myFunctions = require("./function.js"); // import the function.js file
 
 // div tests
 
