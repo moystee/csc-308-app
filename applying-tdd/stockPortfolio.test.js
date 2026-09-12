@@ -1,10 +1,14 @@
-const StockPortfolio = require("./stockPortfolio");
+const StockPortfolio = require("./stockPortfolio"); // import stockPortfolio.js
 
-test("successfully creating a portfolio", () => {
+// 2.1
+
+test("creating a portfolio", () => {
   const portfolio = new StockPortfolio();
 
   expect(portfolio).toBeDefined();
 });
+
+// 2.2
 
 test("new portfolio is empty", () => {
   const portfolio = new StockPortfolio();
@@ -12,11 +16,71 @@ test("new portfolio is empty", () => {
   expect(portfolio.isEmpty()).toBe(true);
 });
 
-test("purchasing shares makes the portfolio not empty", () => {
+// 2.3
+
+test("purchase shares", () => {
   const portfolio = new StockPortfolio();
 
-  portfolio.purchase("RBLX", 5);
+  portfolio.purchase("RBLX", 1);
 
   expect(portfolio.isEmpty()).toBe(false);
 });
 
+// 2.4
+
+test("selling shares", () => {
+  const portfolio = new StockPortfolio();
+
+  portfolio.purchase("RBLX", 2);
+  portfolio.sell("RBLX", 1);
+
+  expect(portfolio.stocks.RBLX).toBe(1);
+});
+
+// 2.5
+
+test("unique stock symbols", () => {
+  const portfolio = new StockPortfolio();
+
+  portfolio.purchase("RBLX", 5);
+  portfolio.purchase("GMR", 10);
+
+  expect(portfolio.unique()).toBe(2);
+});
+
+// 2.6
+
+test("empty stock is removed", () => {
+  const portfolio = new StockPortfolio();
+
+  portfolio.purchase("RBLX", 1);
+  portfolio.sell("RBLX", 1);
+
+  expect(portfolio.unique()).toBe(0);
+});
+
+// 2.7
+
+test("getting existing stock", () => {
+  const portfolio = new StockPortfolio();
+
+  portfolio.purchase("RBLX", 1);
+
+  expect(portfolio.number("RBLX")).toBe(1);
+});
+
+test("getting non-existing stock", () => {
+  const portfolio = new StockPortfolio();
+
+  expect(portfolio.number("RBLX")).toBe(0);
+});
+
+// 2.8
+
+test("the portfolio cannot sell more shares than it owns", () => {
+  const portfolio = new StockPortfolio();
+
+  portfolio.purchase("RBLX", 1);
+
+  expect(() => {portfolio.sell("RBLX", 2); }).toThrow("Not possible to sell this number of shares.");
+});
